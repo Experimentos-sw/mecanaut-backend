@@ -46,6 +46,10 @@ using AwawaTech.Mecanaut.API.ConditionMonitoring.Infrastructure.Persistence.EFC.
 using AwawaTech.Mecanaut.API.ConditionMonitoring.Infrastructure.OutboundServices;
 using AwawaTech.Mecanaut.API.ConditionMonitoring.Application.Internal.EventHandlers;
 using AwawaTech.Mecanaut.API.ConditionMonitoring.Application.Internal.OutboundServices;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Application.Internal.CommandServices;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Domain.Repositories;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Domain.Services;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Infrastructure.Persistence.EFC.Repositories;
 using AwawaTech.Mecanaut.API.Subscription.Domain.Repositories;
 using AwawaTech.Mecanaut.API.Subscription.Domain.Services;
 using AwawaTech.Mecanaut.API.Subscription.Application.Internal.CommandServices;
@@ -77,7 +81,6 @@ using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Application.Internal.OutboundSer
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Infrastructure.OutboundServices.Services;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Storage;
 using AwawaTech.Mecanaut.API.Shared.Domain.Services;
-using AwawaTech.Mecanaut.API.WorkOrders.Application.Internal.CommandServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -233,11 +236,13 @@ builder.Services.AddScoped<IImageStorageService, CloudinaryService>();
 builder.Services.AddScoped<IMachineMetricsRepository, MachineMetricsRepository>();
 builder.Services.AddScoped<IMetricDefinitionRepository, MetricDefinitionRepository>();
 builder.Services.AddScoped<IMetricReadingRepository, MetricReadingRepository>();
+builder.Services.AddScoped<IExperimentLogRepository, ExperimentLogRepository>();
 
 builder.Services.AddScoped<IMachineMetricsCommandService, MachineMetricsCommandService>();
 builder.Services.AddScoped<IMetricDefinitionCommandService, MetricDefinitionCommandService>();
 builder.Services.AddScoped<IMachineMetricsQueryService, MachineMetricsQueryService>();
 builder.Services.AddScoped<IMetricQueryService, MetricQueryService>();
+builder.Services.AddScoped<IExperimentLogCommandService, ExperimentLogCommandService>();
 
 builder.Services.AddScoped<IMachineCatalogAcl, MachineCatalogAcl>();
 

@@ -25,6 +25,7 @@ using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Domain.Model.Aggregates;
 
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
@@ -544,6 +545,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 .HasForeignKey(x => x.ExecutedWorkOrderId);
         });
 
+        builder.Entity<ExperimentLog>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedOnAdd();
+            e.Property(x => x.ExperimentName).IsRequired().HasMaxLength(100);
+            e.Property(x => x.Variant).IsRequired().HasMaxLength(50);
+            e.Property(x => x.ActionType).IsRequired().HasMaxLength(100);
+            e.Property(x => x.DurationMilliseconds);
+            e.Property(x => x.IsSuccess).IsRequired();
+            e.Property(x => x.AdditionalData).HasMaxLength(1000);
+
+            e.ToTable(nameof(ExperimentLog));
+        });
+
         builder.UseSnakeCaseNamingConvention();
     }
 
@@ -558,6 +573,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; } = null!;
    public DbSet<InventoryPart> InventoryParts { get; set; } = null!;
    public DbSet<PurchaseOrder> PurchaseOrders { get; set; } = null!;
+    public DbSet<ExperimentLog> ExperimentLogs { get; set; } = null!;
 
    // DbSet para DynamicMaintenancePlanning
    public DbSet<DynamicMaintenancePlan> DynamicMaintenancePlans { get; set; } = null!;
